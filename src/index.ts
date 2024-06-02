@@ -1,4 +1,3 @@
-
 /*
 	MIT License
 
@@ -33,17 +32,166 @@ import * as ffi from 'ffi-napi';
 import * as ref from 'ref-napi';
 
 export type ffi_voidPtr   = Buffer;
+export type ffi_charPtr   = Buffer;
 export type ffi_intPtr    = Buffer;
 export type ffi_uint8Ptr  = Buffer;
 export type ffi_uint16Ptr = Buffer;
 export type ffi_uint32Ptr = Buffer;
 export type ffi_uint64Ptr = Buffer;
 
+/* ------------------------------------------------------------------------------- */
+/* - ARM_REG_xx */
+/* ------------------------------------------------------------------------------- */
+export enum JLinkCONST_ARM_REG {
+
+    ARM_REG_R0 = 0,                     // Index  0
+    ARM_REG_R1,                         // Index  1
+    ARM_REG_R2,                         // Index  2
+    ARM_REG_R3,                         // Index  3
+    ARM_REG_R4,                         // Index  4
+    ARM_REG_R5,                         // Index  5
+    ARM_REG_R6,                         // Index  6
+    ARM_REG_R7,                         // Index  7
+    ARM_REG_CPSR,                       // Index  8
+    ARM_REG_R15,                        // Index  9
+    ARM_REG_R8_USR,                     // Index 10
+    ARM_REG_R9_USR,                     // Index 11
+    ARM_REG_R10_USR,                    // Index 12
+    ARM_REG_R11_USR,                    // Index 13
+    ARM_REG_R12_USR,                    // Index 14
+    ARM_REG_R13_USR,                    // Index 15
+    ARM_REG_R14_USR,                    // Index 16
+    ARM_REG_SPSR_FIQ,                   // Index 17
+    ARM_REG_R8_FIQ,                     // Index 18
+    ARM_REG_R9_FIQ,                     // Index 19
+    ARM_REG_R10_FIQ,                    // Index 20
+    ARM_REG_R11_FIQ,                    // Index 21
+    ARM_REG_R12_FIQ,                    // Index 22
+    ARM_REG_R13_FIQ,                    // Index 23
+    ARM_REG_R14_FIQ,                    // Index 24
+    ARM_REG_SPSR_SVC,                   // Index 25
+    ARM_REG_R13_SVC,                    // Index 26
+    ARM_REG_R14_SVC,                    // Index 27
+    ARM_REG_SPSR_ABT,                   // Index 28
+    ARM_REG_R13_ABT,                    // Index 29
+    ARM_REG_R14_ABT,                    // Index 30
+    ARM_REG_SPSR_IRQ,                   // Index 31
+    ARM_REG_R13_IRQ,                    // Index 32
+    ARM_REG_R14_IRQ,                    // Index 33
+    ARM_REG_SPSR_UND,                   // Index 34
+    ARM_REG_R13_UND,                    // Index 35
+    ARM_REG_R14_UND,                    // Index 36
+    ARM_REG_FPSID,                      // Index 37
+    ARM_REG_FPSCR,                      // Index 38
+    ARM_REG_FPEXC,                      // Index 39
+    ARM_REG_FPS0,                       // Index 40
+    ARM_REG_FPS1,                       // Index 41
+    ARM_REG_FPS2,                       // Index 42
+    ARM_REG_FPS3,                       // Index 43
+    ARM_REG_FPS4,                       // Index 44
+    ARM_REG_FPS5,                       // Index 45
+    ARM_REG_FPS6,                       // Index 46
+    ARM_REG_FPS7,                       // Index 47
+    ARM_REG_FPS8,                       // Index 48
+    ARM_REG_FPS9,                       // Index 49
+    ARM_REG_FPS10,                      // Index 50
+    ARM_REG_FPS11,                      // Index 51
+    ARM_REG_FPS12,                      // Index 52
+    ARM_REG_FPS13,                      // Index 53
+    ARM_REG_FPS14,                      // Index 54
+    ARM_REG_FPS15,                      // Index 55
+    ARM_REG_FPS16,                      // Index 56
+    ARM_REG_FPS17,                      // Index 57
+    ARM_REG_FPS18,                      // Index 58
+    ARM_REG_FPS19,                      // Index 59
+    ARM_REG_FPS20,                      // Index 60
+    ARM_REG_FPS21,                      // Index 61
+    ARM_REG_FPS22,                      // Index 62
+    ARM_REG_FPS23,                      // Index 63
+    ARM_REG_FPS24,                      // Index 64
+    ARM_REG_FPS25,                      // Index 65
+    ARM_REG_FPS26,                      // Index 66
+    ARM_REG_FPS27,                      // Index 67
+    ARM_REG_FPS28,                      // Index 68
+    ARM_REG_FPS29,                      // Index 69
+    ARM_REG_FPS30,                      // Index 70
+    ARM_REG_FPS31,                      // Index 71
+    ARM_REG_R8,                         // Index 72
+    ARM_REG_R9,                         // Index 73
+    ARM_REG_R10,                        // Index 74
+    ARM_REG_R11,                        // Index 75
+    ARM_REG_R12,                        // Index 76
+    ARM_REG_R13,                        // Index 77
+    ARM_REG_R14,                        // Index 78
+    ARM_REG_SPSR,                       // Index 79
+    ARM_NUM_REGS,
+};
+
+/* ------------------------------------------------------------------------------- */
+/* - JLINKARM_RESET_TYPE_xx */
+/* ------------------------------------------------------------------------------- */
+export enum JLinkCONST_RESET_TYPE {
+
+    JLINKARM_RESET_TYPE_NORMAL = 0,    // Resets core + peripherals. Reset pin is avoided where possible and reset via SFR access is preferred.
+    //
+    // --- Start ---
+    // Do NOT use anymore
+    //
+    JLINKARM_RESET_TYPE_BP0,
+    JLINKARM_RESET_TYPE_ADI,
+    JLINKARM_RESET_TYPE_NO_RESET,
+    JLINKARM_RESET_TYPE_HALT_WP,
+    JLINKARM_RESET_TYPE_HALT_DBGRQ,
+    JLINKARM_RESET_TYPE_SOFT,
+    JLINKARM_RESET_TYPE_HALT_DURING,
+    JLINKARM_RESET_TYPE_SAM7,
+    JLINKARM_RESET_TYPE_LPC,
+    //
+    // --- End ---
+    //
+    //
+    // Generic J-Link reset types (core independent)
+    // CPU-specific reset types are still in the header for backward compatibility but should not be used anymore
+    // All reset types halt the CPU before executing the first instruction of the user application, after reset release
+    // If the CPU incorporates a ROM bootloader, J-Link makes sure that this bootloader is executed and the CPU is halted as soon as it jumps into the user application code
+    //
+    // Note:
+    // If a specific reset type also resets the debug logic, it may happen that the CPU cannot be halted immediately after reset
+    // so it may have already executed some instructions before J-Link has a chance to halt it
+    //
+    JLINK_RESET_TYPE_CORE = 100,         // Resets core only
+    JLINK_RESET_TYPE_RESET_PIN,          // Toggles reset pin in order to issue a reset. Requires reset pin to be connected, otherwise result will be unpredictable
+};
+
+/* ------------------------------------------------------------------------------- */
+/* - JLINKARM_TIF_xx */
+/* ------------------------------------------------------------------------------- */
+export enum JLinkCONST_TIF {
+
+    JLINKARM_TIF_JTAG             = 0,
+    JLINKARM_TIF_SWD              = 1,
+    JLINKARM_TIF_BDM3             = 2,  // Do NOT use. Not supported anymore. Only there for backward compatbility inside the DLL
+    JLINKARM_TIF_FINE             = 3,
+    JLINKARM_TIF_ICSP             = 4,  // Microchip 2-wire JTAG via TCK + TMS (e.g. PIC32)
+    JLINKARM_TIF_SPI              = 5,
+    JLINKARM_TIF_C2               = 6,
+    JLINKARM_TIF_CJTAG            = 7,
+    JLINKARM_TIF_SWIM             = 8,   // Only used Flasher PRO/ATE internally. J-Link does not support SWIM interface (yet)
+    JLINKARM_TIF_PDI              = 9,   // Only used Flasher PRO/ATE internally. J-Link does not support PDI interface (yet)
+    JLINKARM_TIF_MC2WJTAG_TDI     = 10,  // Microchip 2-wire JTAG via TCK + TDI (e.g. BT5511 8051 core)
+    JLINKARM_TIF_SPI_IDLE_CLK_LOW = 11,  // Microchip 2-wire JTAG via TCK + TDI (e.g. ATMega)
+    JLINKARM_TIF_I2C              = 12,  // Only used Flasher PRO/ATE internally. J-Link does not support I2C interface (yet)
+    JLINKARM_TIF_SPI2FE           = 13,  // Only used Flasher PRO/ATE internally. J-Link does not support SPI2FE interface (yet)
+    JLINKARM_TIF_QSPI             = 14,  // Currently, only supported by Flasher PRO
+    JLINKARM_TIF_NUMTIFS          = 15,  // Increment when adding a new interface
+};
+
 export class JLinkDLL {
 
     private jlink: any;
 
     private voidPtrType   = ref.refType(ref.types.void);
+    private charPtrType   = ref.refType(ref.types.char);
     private intPtrType    = ref.refType(ref.types.int);
     private uint8PtrType  = ref.refType(ref.types.uint8);
     private uint16PtrType = ref.refType(ref.types.uint16);
@@ -83,8 +231,8 @@ export class JLinkDLL {
             'JLINK_CP15_WriteEx': ["int",["uint8","uint8","uint8","uint8","uint32"]],
             'JLINK_CP15_WriteReg': ["int",["uint32","uint32"]],
             'JLINK_DEVICE_GetIndex': ["int",["string"]],
-            'JLINK_DIALOG_Configure': ["int",["string","string","uint32"]],
-            'JLINK_DIALOG_ConfigureEx': ["int",[this.voidPtrType,"uint32","string","string","uint32"]],
+            'JLINK_DIALOG_Configure': ["int",["string",this.charPtrType,"uint32"]],
+            'JLINK_DIALOG_ConfigureEx': ["int",[this.voidPtrType,"uint32","string",this.charPtrType,"uint32"]],
             'JLINK_DownloadECode': ["void",[this.uint8PtrType,"uint32"]],
             'JLINK_DownloadFile': ["int",["string","uint32"]],
             'JLINK_EMU_AddLicense': ["int",["string"]],
@@ -93,17 +241,17 @@ export class JLinkDLL {
             'JLINK_EMU_COM_Write': ["int",["uint","uint",this.voidPtrType]],
             'JLINK_EMU_EraseLicenses': ["int",[]],
             'JLINK_EMU_FILE_Delete': ["int",["string"]],
-            'JLINK_EMU_FILE_GetList': ["int",["string","string","uint32"]],
+            'JLINK_EMU_FILE_GetList': ["int",["string",this.charPtrType,"uint32"]],
             'JLINK_EMU_FILE_GetSize': ["int",["string"]],
             'JLINK_EMU_FILE_Read': ["int",["string",this.uint8PtrType,"uint32","uint32"]],
             'JLINK_EMU_FILE_Write': ["int",["string",this.uint8PtrType,"uint32","uint32"]],
             'JLINK_EMU_GetCounters': ["int",["uint32",this.uint32PtrType]],
-            'JLINK_EMU_GetLicenses': ["int",["string","uint32"]],
+            'JLINK_EMU_GetLicenses': ["int",[this.charPtrType,"uint32"]],
             'JLINK_EMU_GetMaxMemBlock': ["uint32",[]],
             'JLINK_EMU_GetNumConnections': ["int",[]],
             'JLINK_EMU_GetNumDevices': ["uint32",[]],
             'JLINK_EMU_GetProductId': ["int",[]],
-            'JLINK_EMU_GetProductName': ["void",["string","uint32"]],
+            'JLINK_EMU_GetProductName': ["void",[this.charPtrType,"uint32"]],
             'JLINK_EMU_GPIO_GetState': ["int",[this.uint8PtrType,this.uint8PtrType,"uint32"]],
             'JLINK_EMU_GPIO_SetState': ["int",[this.uint8PtrType,this.uint8PtrType,this.uint8PtrType,"uint32"]],
             'JLINK_EMU_HasCapEx': ["int",["int"]],
@@ -111,7 +259,7 @@ export class JLinkDLL {
             'JLINK_EMU_IsConnected': ["char",[]],
             'JLINK_EMU_SelectByIndex': ["uint32",["uint32"]],
             'JLINK_EMU_SelectByUSBSN': ["int",["uint32"]],
-            'JLINK_EMU_SelectIP': ["int",["string","int",this.uint16PtrType]],
+            'JLINK_EMU_SelectIP': ["int",[this.charPtrType,"int",this.uint16PtrType]],
             'JLINK_EMU_SelectIPBySN': ["void",["uint32"]],
             'JLINK_EMU_TestNRSpeed': ["int",["uint32","uint32"]],
             'JLINK_EMU_TestNWSpeed': ["int",["uint32","uint32"]],
@@ -128,21 +276,21 @@ export class JLinkDLL {
             'JLINK_ETM_ReadReg': ["uint32",["uint32"]],
             'JLINK_ETM_StartTrace': ["void",[]],
             'JLINK_ETM_WriteReg': ["void",["uint32","uint32","int"]],
-            'JLINK_ExecCommand': ["int",["string","string","int"]],
+            'JLINK_ExecCommand': ["int",["string",this.charPtrType,"int"]],
             'JLINK_ExecECode': ["void",[]],
             'JLINK_FindBP': ["int",["uint32"]],
-            'JLINK_GetAvailableLicense': ["int",["string","uint32"]],
+            'JLINK_GetAvailableLicense': ["int",[this.charPtrType,"uint32"]],
             'JLINK_GetCompileDateTime': ["string",[]],
             'JLINK_GetConfigData': ["void",[this.intPtrType,this.intPtrType]],
             'JLINK_GetDebugInfo': ["int",["uint32",this.uint32PtrType]],
             'JLINK_GetDeviceFamily': ["int",[]],
             'JLINK_GetDLLVersion': ["uint32",[]],
-            'JLINK_GetEmbeddedFWString': ["int",["string","string","uint32"]],
+            'JLINK_GetEmbeddedFWString': ["int",["string",this.charPtrType,"uint32"]],
             'JLINK_GetEmuCaps': ["uint32",[]],
             'JLINK_GetEmuCapsEx': ["void",[this.uint8PtrType,"int"]],
             'JLINK_GetExecTime': ["void",[this.uint32PtrType,this.uint32PtrType]],
             'JLINK_GetFeatureString': ["void",["string"]],
-            'JLINK_GetFirmwareString': ["void",["string","int"]],
+            'JLINK_GetFirmwareString': ["void",[this.charPtrType,"int"]],
             'JLINK_GetHardwareVersion': ["int",[]],
             'JLINK_GetHWInfo': ["int",["uint32",this.uint32PtrType]],
             'JLINK_GetId': ["uint32",[]],
@@ -198,7 +346,7 @@ export class JLinkDLL {
             'JLINK_PCODE_GetCaps': ["int",[this.uint32PtrType]],
             'JLINK_PCODE_GetS32Version': ["int",[this.uint32PtrType]],
             'JLINK_POWERTRACE_Control': ["int",["uint32",this.voidPtrType,this.voidPtrType]],
-            'JLINK_PrintConfig': ["int",["string","uint32","string","uint32"]],
+            'JLINK_PrintConfig': ["int",["string","uint32",this.charPtrType,"uint32"]],
             'JLINK_RAWTRACE_Control': ["int",["uint32",this.voidPtrType]],
             'JLINK_RAWTRACE_Read': ["int",[this.uint8PtrType,"uint32"]],
             'JLINK_ReadCodeMem': ["int",["uint32","uint32",this.voidPtrType]],
@@ -240,7 +388,7 @@ export class JLinkDLL {
             'JLINK_ResetPullsTRST': ["void",["uint8"]],
             'JLINK_ResetTRST': ["void",[]],
             'JLINK_RTTERMINAL_Control': ["int",["uint32",this.voidPtrType]],
-            'JLINK_RTTERMINAL_Read': ["int",["uint32","string","uint32"]],
+            'JLINK_RTTERMINAL_Read': ["int",["uint32",this.charPtrType,"uint32"]],
             'JLINK_RTTERMINAL_Write': ["int",["uint32","string","uint32"]],
             'JLINK_SelectDeviceFamily': ["void",["int"]],
             'JLINK_SelectIP': ["char",["string","int"]],
@@ -492,13 +640,14 @@ export class JLinkDLL {
         return this.jlink.JLINK_DEVICE_GetIndex(sDeviceName);
     }
 
-    DIALOG_Configure(pConfigIn: string, pConfigOut: string, BufferSize: number): number {
-        
+    DIALOG_Configure(pConfigIn: string, pConfigOut: ffi_charPtr, BufferSize: number): number {
+        pConfigOut.type = ref.types.char;
         return this.jlink.JLINK_DIALOG_Configure(pConfigIn, pConfigOut, BufferSize);
     }
 
-    DIALOG_ConfigureEx(hParent: ffi_voidPtr, Mask: number, pConfigIn: string, pConfigOut: string, BufferSize: number): number {
+    DIALOG_ConfigureEx(hParent: ffi_voidPtr, Mask: number, pConfigIn: string, pConfigOut: ffi_charPtr, BufferSize: number): number {
         hParent.type = ref.types.void;
+        pConfigOut.type = ref.types.char;
         return this.jlink.JLINK_DIALOG_ConfigureEx(hParent, Mask, pConfigIn, pConfigOut, BufferSize);
     }
 
@@ -542,8 +691,8 @@ export class JLinkDLL {
         return this.jlink.JLINK_EMU_FILE_Delete(sFile);
     }
 
-    EMU_FILE_GetList(sFile: string, pBuffer: string, BufferSize: number): number {
-        
+    EMU_FILE_GetList(sFile: string, pBuffer: ffi_charPtr, BufferSize: number): number {
+        pBuffer.type = ref.types.char;
         return this.jlink.JLINK_EMU_FILE_GetList(sFile, pBuffer, BufferSize);
     }
 
@@ -567,8 +716,8 @@ export class JLinkDLL {
         return this.jlink.JLINK_EMU_GetCounters(BitMask, pCounters);
     }
 
-    EMU_GetLicenses(pBuffer: string, BufferSize: number): number {
-        
+    EMU_GetLicenses(pBuffer: ffi_charPtr, BufferSize: number): number {
+        pBuffer.type = ref.types.char;
         return this.jlink.JLINK_EMU_GetLicenses(pBuffer, BufferSize);
     }
 
@@ -592,8 +741,8 @@ export class JLinkDLL {
         return this.jlink.JLINK_EMU_GetProductId();
     }
 
-    EMU_GetProductName(pBuffer: string, BufferSize: number): void {
-        
+    EMU_GetProductName(pBuffer: ffi_charPtr, BufferSize: number): void {
+        pBuffer.type = ref.types.char;
         this.jlink.JLINK_EMU_GetProductName(pBuffer, BufferSize);
     }
 
@@ -635,7 +784,8 @@ export class JLinkDLL {
         return this.jlink.JLINK_EMU_SelectByUSBSN(SerialNo);
     }
 
-    EMU_SelectIP(pIPAddr: string, BufferSize: number, pPort: ffi_uint16Ptr): number {
+    EMU_SelectIP(pIPAddr: ffi_charPtr, BufferSize: number, pPort: ffi_uint16Ptr): number {
+        pIPAddr.type = ref.types.char;
         pPort.type = ref.types.uint16;
         return this.jlink.JLINK_EMU_SelectIP(pIPAddr, BufferSize, pPort);
     }
@@ -720,8 +870,8 @@ export class JLinkDLL {
         this.jlink.JLINK_ETM_WriteReg(Reg, Data, AllowDelay);
     }
 
-    ExecCommand(pIn: string, pOut: string, BufferSize: number): number {
-        
+    ExecCommand(pIn: string, pOut: ffi_charPtr, BufferSize: number): number {
+        pOut.type = ref.types.char;
         return this.jlink.JLINK_ExecCommand(pIn, pOut, BufferSize);
     }
 
@@ -735,8 +885,8 @@ export class JLinkDLL {
         return this.jlink.JLINK_FindBP(Addr);
     }
 
-    GetAvailableLicense(pBuffer: string, BufferSize: number): number {
-        
+    GetAvailableLicense(pBuffer: ffi_charPtr, BufferSize: number): number {
+        pBuffer.type = ref.types.char;
         return this.jlink.JLINK_GetAvailableLicense(pBuffer, BufferSize);
     }
 
@@ -766,8 +916,8 @@ export class JLinkDLL {
         return this.jlink.JLINK_GetDLLVersion();
     }
 
-    GetEmbeddedFWString(sFWId: string, pBuffer: string, BufferSize: number): number {
-        
+    GetEmbeddedFWString(sFWId: string, pBuffer: ffi_charPtr, BufferSize: number): number {
+        pBuffer.type = ref.types.char;
         return this.jlink.JLINK_GetEmbeddedFWString(sFWId, pBuffer, BufferSize);
     }
 
@@ -792,8 +942,8 @@ export class JLinkDLL {
         this.jlink.JLINK_GetFeatureString(pOut);
     }
 
-    GetFirmwareString(s: string, BufferSize: number): void {
-        
+    GetFirmwareString(s: ffi_charPtr, BufferSize: number): void {
+        s.type = ref.types.char;
         this.jlink.JLINK_GetFirmwareString(s, BufferSize);
     }
 
@@ -1078,8 +1228,8 @@ export class JLinkDLL {
         return this.jlink.JLINK_POWERTRACE_Control(Cmd, pIn, pOut);
     }
 
-    PrintConfig(pConfig: string, Mask: number, pBuffer: string, BufferSize: number): number {
-        
+    PrintConfig(pConfig: string, Mask: number, pBuffer: ffi_charPtr, BufferSize: number): number {
+        pBuffer.type = ref.types.char;
         return this.jlink.JLINK_PrintConfig(pConfig, Mask, pBuffer, BufferSize);
     }
 
@@ -1304,8 +1454,8 @@ export class JLinkDLL {
         return this.jlink.JLINK_RTTERMINAL_Control(Cmd, p);
     }
 
-    RTTERMINAL_Read(BufferIndex: number, sBuffer: string, BufferSize: number): number {
-        
+    RTTERMINAL_Read(BufferIndex: number, sBuffer: ffi_charPtr, BufferSize: number): number {
+        sBuffer.type = ref.types.char;
         return this.jlink.JLINK_RTTERMINAL_Read(BufferIndex, sBuffer, BufferSize);
     }
 
