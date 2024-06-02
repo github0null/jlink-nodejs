@@ -1,0 +1,7 @@
+node_modules
+package-lock.json
+test/*.js
+test/*.json
+src/*.js
+jlink-lib/*.js
+jlink-lib/*.json

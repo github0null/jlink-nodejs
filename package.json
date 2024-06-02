@@ -1,0 +1,25 @@
+{
+  "name": "jlink-for-node",
+  "version": "1.0.0",
+  "description": "JLink DLL API for NodeJS",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "cd ./test/ && npx tsc ./test.ts && set DEBUG=ffi:Library && node ./test.js",
+    "make": "cd ./jlink-lib/ && npx tsc ./gen.ts && node ./gen.js"
+  },
+  "keywords": [
+    "JLink"
+  ],
+  "author": "github0null",
+  "license": "MIT",
+  "dependencies": {
+    "ffi-napi": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/ffi-napi": "^4.0.10",
+    "typescript": "^5.4.5"
+  }
+}
